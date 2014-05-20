@@ -12,6 +12,7 @@ namespace MoveFilesToAzureStorage
     public class Program
     {
         private static AzureStorageHelper storageHelper;
+        private static string path;
 
         public static void Main(string[] args)
         {
@@ -19,8 +20,8 @@ namespace MoveFilesToAzureStorage
 
             storageHelper = new AzureStorageHelper();
 
-            string path = Environment.GetEnvironmentVariable("APPSETTING_FilesLocation");
-            
+            path = Environment.GetEnvironmentVariable("APPSETTING_FilesLocation");
+
             Console.WriteLine("Loading files from " + path);
 
             TraverseDirectory(new DirectoryInfo(path));
@@ -34,7 +35,7 @@ namespace MoveFilesToAzureStorage
 
             if (directory == null) return;
 
-            foreach(var subDirectory in directory.GetDirectories())
+            foreach (var subDirectory in directory.GetDirectories())
             {
                 TraverseDirectory(subDirectory);
             }
@@ -47,8 +48,17 @@ namespace MoveFilesToAzureStorage
 
         private static void Upload(FileInfo file)
         {
-            Console.WriteLine("Creating " + file.Name + " " + file.FullName);
-            storageHelper.UploadFileToBlob(file.Name, file.FullName);
+            var name = CreateNameFromPath(file.FullName);
+
+            Console.WriteLine("Creating " + name + " " + file.FullName);
+            storageHelper.UploadFileToBlob(name, file.FullName);
+        }
+
+        private static string CreateNameFromPath(string filename)
+        {
+            return filename.Replace(path, "")
+                .Replace(@"\", "/")
+                .TrimStart('/');
         }
     }
 }
