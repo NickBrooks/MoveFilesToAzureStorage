@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -36,6 +35,7 @@ namespace MoveFilesToAzureStorage
                 using (var fileStream = System.IO.File.OpenRead(path))
                 {
                     blockBlob = container.GetBlockBlobReference(name);
+                    blockBlob.Properties.ContentType = MimeHelper.GetMimeBasedOnExtensionFor(path);
                     blockBlob.UploadFromStream(fileStream);
                     Console.WriteLine(name + " successfully uploaded!");
                 }

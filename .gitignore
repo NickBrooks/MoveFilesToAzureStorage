@@ -172,3 +172,7 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+Src/MoveFilesToAzureStorage.sln.ide/edb.chk
+Src/MoveFilesToAzureStorage.sln.ide/edbres00001.jrs
+Src/MoveFilesToAzureStorage.sln.ide/edbres00002.jrs
+Src/MoveFilesToAzureStorage.sln.ide/storage.ide
