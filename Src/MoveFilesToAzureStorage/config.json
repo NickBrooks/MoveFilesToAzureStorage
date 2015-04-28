@@ -1,0 +1,5 @@
+﻿{ 
+    "APPSETTING_StorageContainer" :  "STORAGECONTAINER",
+    "CUSTOMCONNSTR_StorageConnectionString" :  "DefaultEndpointsProtocol=https;AccountName=ACCOUNTNAME;AccountKey=ACCOUNTKEY",
+    "APPSETTING_FilesLocation" :  "FILEDIRECTORY"
+}

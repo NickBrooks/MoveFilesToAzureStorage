@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Management.Storage;
 using System.IO;
 using System.Configuration;
 
@@ -20,7 +19,7 @@ namespace MoveFilesToAzureStorage
 
             storageHelper = new AzureStorageHelper();
 
-            path = Environment.GetEnvironmentVariable("APPSETTING_FilesLocation");
+            path = ENV.Get("APPSETTING_FilesLocation");
 
             Console.WriteLine("Loading files from " + path);
 

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MoveFilesToAzureStorage
 {
@@ -16,15 +20,17 @@ namespace MoveFilesToAzureStorage
         private CloudBlobContainer container;
         private CloudBlockBlob blockBlob;
 
-        private bool deleteAfterUpload = false;
-
         public AzureStorageHelper()
         {
-            Console.WriteLine("Using Storage Container " + Environment.GetEnvironmentVariable("APPSETTING_StorageContainer"));
-            storageAccount = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("CUSTOMCONNSTR_StorageConnectionString"));
+            Console.WriteLine("Using Storage Container " + ENV.Get("APPSETTING_StorageContainer"));
+            storageAccount = CloudStorageAccount.Parse(ENV.Get("CUSTOMCONNSTR_StorageConnectionString"));
             blobClient = storageAccount.CreateCloudBlobClient();
-            container = blobClient.GetContainerReference(Environment.GetEnvironmentVariable("APPSETTING_StorageContainer"));
+            container = blobClient.GetContainerReference(ENV.Get("APPSETTING_StorageContainer"));
             container.CreateIfNotExists();
+            var perm = new BlobContainerPermissions();
+            perm.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(perm); 
+
         }
 
         public void UploadFileToBlob(string name, string path)
